@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %} Produtos {% endblock title %}
+
+{% block content %}
+  
+  <style>
+    .car-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 20px;
+    }
+
+    .car-card {
+      background-color: #e3e1e1;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .car-card:hover {
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        transform: translateY(-2px);
+    }
+
+    .car-card img {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+    }
+
+    .car-card h3 {
+        font-size: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    .car-card h2 {
+      font-size: 1.5rem;
+      margin: 10px;
+    }
+
+    .car-card p {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .car-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    form {
+        display: flex;
+        background-color: blue;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    input[type="text"] {
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #e3e1e1;
+        border-radius: 4px;
+        margin-right: 10px;
+        transition: border-bottom-color 0.3s ease-in-out;
+    }
+
+    input[type="text"]:focus {
+        outline: none;
+        border-bottom-color: #e3e1e1;
+    }
+
+    button[type="submit"] {
+        background-color: rgb(166, 166, 0);
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #108eb8;
+    }
+    
+    a {
+      font-size: 18px;
+      color: #333;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #0096c7;
+    }
+    .combo-box {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+    .combo-box input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .combo-box select {
+        width: 100%;
+        display: none;
+    }
+    .combo-box ul {
+        position: absolute;
+        width: 100%;
+        max-height: 150px;
+        overflow-y: auto;
+        border: 1px solid black;
+        display: none;
+        
+        z-index: 1000;
+    }
+    .combo-box ul li {
+        padding: 8px;
+        cursor: pointer;
+    }
+   
+    .forms {
+      display: flex;
+      flex-direction: row;
+      background-color: black;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+    }
+    .form {
+      background-color:white;
+    }
+  </style>
+
+  <script>
+    // Função JavaScript para armazenar o valor selecionado e enviar o formulário
+    function submitForm() {
+        document.getElementById('brand-form').submit(); // Envia o formulário
+    }
+  </script>
+  
+  <div class="forms">
+    <form id='search-form' method="GET" class="form" action="{% url 'products_list' %}" onchange="resetBrandSelect()">
+      <input type="text" name="search" placeholder="Buscar...">
+      <button type="submit">Buscar</button>
+    </form>
+  
+    <form id="brand-form" method="get" class="form" action="{% url 'products_list' %}">
+      <select id="brand-select" name="brand"  onchange="submitForm()">
+        <option value="" {% if not selected_brand %}selected="selected"{% endif %}>Selecione uma marca</option>
+        {% for brand in brands %}
+            <option value="{{ brand.name }}" {% if selected_brand == brand.name %}selected{% endif %}>{{ brand.name }}</option>
+        {% endfor %}
+      </select>
+  
+      <select id="mode-select-form" name="mode"  onchange="submitForm()">
+        <option value="menu_order" {% if selected_mode == 'menu_order' %}selected="selected"{% endif %}>Ordenação padrão</option>
+        <option value="price" {% if selected_mode == 'price' %}selected="selected"{% endif %}>Ordenar por preço: menor para maior</option>
+        <option value="price-desc" {% if selected_mode == 'price-desc' %}selected="selected"{% endif %}>Ordenar por preço: maior para menor</option>
+    </select>
+    </form>
+  </div>
+ 
+  <div class="car-grid">
+    {% if products %}
+      {% for product in products %}
+        
+          <div class="car-card">
+            <a href="{% url 'products_detail' pk=product.pk %}">
+              <img src="{{ product.main_photo.url }}" alt="TITLE PRODUCT">
+            
+              <h2>{{ product.name }}</h2>
+              <h6>{{ product.brand }}</h6>
+              <p>R$ {{ product.selling_price }} </p>
+              <a href="https://api.whatsapp.com/send?phone=553499937440&text=ISSO%20%C3%89%20UM%20TESTE"><button class='btn btn-primary'><i class="bi bi-whatsapp"></i>Comprar pelo whatsapp</button></a>
+            </a>
+          </div>
+      {% endfor %}
+    {% else %}
+      <p class="no-results">Nenhum carro encontrado.</p>
+    {% endif %}
+  </div>
+{% endblock %}

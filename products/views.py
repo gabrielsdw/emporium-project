@@ -3,7 +3,6 @@ from products import models
 from brands.models import Brand
 
 class ProductListView(generic.ListView):
-
     model = models.Product
     template_name = 'products_list.html'
     context_object_name = 'products'

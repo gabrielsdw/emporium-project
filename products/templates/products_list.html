@@ -42,13 +42,24 @@
     }
 
     .car-card h2 {
+      color: black;
       font-size: 1.5rem;
-      margin: 10px;
+      margin-top: 10px;
+      margin-bottom: 0px;
+    }
+    .car-card h6 {
+      color: black;
+      font-size: 1rem;
     }
 
     .car-card p {
+      color: black;
       font-size: 1rem;
       margin-bottom: 10px;
+    }
+    .car-card button {
+      background-color: rgb(166, 166, 0);
+      
     }
 
     @media (max-width: 768px) {
@@ -93,18 +104,10 @@
     }
 
     button[type="submit"]:hover {
-        background-color: #108eb8;
+        background-color: rgb(210, 210, 0);
     }
     
-    a {
-      font-size: 18px;
-      color: #333;
-      text-decoration: none;
-    }
-
-    a:hover {
-      color: #0096c7;
-    }
+    
     .combo-box {
         position: relative;
         display: inline-block;
@@ -144,6 +147,50 @@
     .form {
       background-color:white;
     }
+    .form-container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      background-color: #f9f9f9;
+  }
+  label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+  }
+  select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #e3e1e1;
+      border-radius: 5px;
+      box-sizing: border-box;
+      appearance: none;
+      
+      background: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="%23666" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/></svg>') no-repeat right 10px center;
+  }
+  
+  select:focus {
+      border-color: #66afe9;
+      outline: none;
+      box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+  }
+  .modify {
+    border: none;
+    margin-top: 3px;
+    margin-bottom: 7px;
+  }
+  .modify:hover {
+    background-color: rgb(210, 210, 0);
+    transition: 0.8s;
+  }
+  .modify i {
+    margin-right: 10px;
+  }
+
   </style>
 
   <script>
@@ -158,21 +205,23 @@
       <input type="text" name="search" placeholder="Buscar...">
       <button type="submit">Buscar</button>
     </form>
-  
-    <form id="brand-form" method="get" class="form" action="{% url 'products_list' %}">
-      <select id="brand-select" name="brand"  onchange="submitForm()">
-        <option value="" {% if not selected_brand %}selected="selected"{% endif %}>Selecione uma marca</option>
-        {% for brand in brands %}
-            <option value="{{ brand.name }}" {% if selected_brand == brand.name %}selected{% endif %}>{{ brand.name }}</option>
-        {% endfor %}
+    <div class="selects">
+      <form id="brand-form" method="get" class="form" action="{% url 'products_list' %}">
+        
+        <select id="brand-select" name="brand"  onchange="submitForm()">
+          <option value="" {% if not selected_brand %}selected="selected"{% endif %}>Selecione uma marca</option>
+          {% for brand in brands %}
+              <option value="{{ brand.name }}" {% if selected_brand == brand.name %}selected{% endif %}>{{ brand.name }}</option>
+          {% endfor %}
+        </select>
+    
+        <select id="mode-select-form" name="mode"  onchange="submitForm()">
+          <option value="menu_order" {% if selected_mode == 'menu_order' %}selected="selected"{% endif %}>Ordenação padrão</option>
+          <option value="price" {% if selected_mode == 'price' %}selected="selected"{% endif %}>Ordenar por preço: menor para maior</option>
+          <option value="price-desc" {% if selected_mode == 'price-desc' %}selected="selected"{% endif %}>Ordenar por preço: maior para menor</option>
       </select>
-  
-      <select id="mode-select-form" name="mode"  onchange="submitForm()">
-        <option value="menu_order" {% if selected_mode == 'menu_order' %}selected="selected"{% endif %}>Ordenação padrão</option>
-        <option value="price" {% if selected_mode == 'price' %}selected="selected"{% endif %}>Ordenar por preço: menor para maior</option>
-        <option value="price-desc" {% if selected_mode == 'price-desc' %}selected="selected"{% endif %}>Ordenar por preço: maior para menor</option>
-    </select>
-    </form>
+      </form>  
+    </div>
   </div>
  
   <div class="car-grid">
@@ -183,15 +232,15 @@
             <a href="{% url 'products_detail' pk=product.pk %}">
               <img src="{{ product.main_photo.url }}" alt="TITLE PRODUCT">
             
-              <h2>{{ product.name }}</h2>
+              <h2><strong>{{ product.name }}</strong></h2>
               <h6>{{ product.brand }}</h6>
               <p>R$ {{ product.selling_price }} </p>
-              <a href="https://api.whatsapp.com/send?phone=553499937440&text=ISSO%20%C3%89%20UM%20TESTE"><button class='btn btn-primary'><i class="bi bi-whatsapp"></i>Comprar pelo whatsapp</button></a>
+              <a target="_blank" href="https://api.whatsapp.com/send?phone=553499937440&text=ISSO%20%C3%89%20UM%20TESTE"><button class='btn btn-primary modify'><i class="bi bi-whatsapp"></i>Comprar pelo whatsapp</button></a>
             </a>
           </div>
       {% endfor %}
     {% else %}
-      <p class="no-results">Nenhum carro encontrado.</p>
+      <p class="no-results">Nenhum produto encontrado.</p>
     {% endif %}
   </div>
 {% endblock %}

@@ -6,13 +6,9 @@ class ProductListView(generic.ListView):
     model = models.Product
     template_name = 'products_list.html'
     context_object_name = 'products'
+    paginate_by = 9
 
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.brand = kwargs.get('brand', 'wwwwwww')
-        
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['brands'] = Brand.objects.all()
@@ -27,12 +23,18 @@ class ProductListView(generic.ListView):
         brand = self.request.GET.get('brand', '')
         mode = self.request.GET.get('mode', '')
         search = self.request.GET.get('search', '')
+        category = self.request.GET.get('category_id', '')
         
+        
+           
         if search:
-            return products.filter(name__icontains=search)
+            products = products.filter(name__icontains=search)
        
         if brand:
             products = products.filter(brand__name=brand)
+
+        if category:
+            products = products.filter(category__id=category)
         
         match mode:
             case "menu_order":

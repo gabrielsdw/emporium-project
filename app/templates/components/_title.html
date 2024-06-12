@@ -8,20 +8,55 @@
     }
     
     .title-text {
-       color: rgb(166, 166, 0);
+        color: rgb(166, 166, 0);
+        font-family: "Libre Baskerville", serif;
+        font-weight: 700;
+        font-style: normal;
+        font-size: 2.5rem;
+        margin-bottom: 0px;
     }
     .subtitle-text {
         color: rgb(166, 166, 0);
         margin-top: 0px; 
+        font-size: 1rem;
+        text-decoration: none;
+    }
+    .title-text:hover {
+        color: rgb(255, 255, 0);
+        transition: 0.7s;
+        
+    }
+    .subtitle-text:hover {
+        
+        color: rgb(255, 255, 0);
+        transition: 0.7s;
+    }
+    .title-icon {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        
+    }
+    .title-text {
+        margin-left: 2.5rem;
+        margin-right: 15px;
     }
 </style>
 
 <div class="title">
-    <div>
-        <p class='title-text'><strong>EMPORIUM</strong></p>
+    <div class="title-icon">
+        <div>
+            <p class='title-text'><strong>EMPÓRIUM</strong></p>
+        
+        </div>
+        <div><a href="{% url 'products_list' %}">
+            <i class="bi bi-gem fs-1 logo-icon"></i>
+        </a> </div>
+        
     </div>
     <div>
-        <p class='subtitle-text'>A melhor loja da região</p>
+        <p class='subtitle-text'>Calçados e Roupas</p>
     </div>
     
 </div>

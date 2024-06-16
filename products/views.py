@@ -25,8 +25,6 @@ class ProductListView(generic.ListView):
         search = self.request.GET.get('search', '')
         category = self.request.GET.get('category_id', '')
         
-        
-           
         if search:
             products = products.filter(name__icontains=search)
        

@@ -4,6 +4,8 @@ from products.models import Product
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    search_fields = ('name',)
-    list_display = ('id', 'name',)
+      
+      class Meta:
+        list_display = ('__all__',)
+        search_fields = ('__all__',)
 

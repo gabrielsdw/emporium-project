@@ -41,7 +41,6 @@ INSTALLED_APPS = [
 
     'brands',
     'categories',
-    'colors',
     'products',
     'sizes',
 ]

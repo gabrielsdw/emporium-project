@@ -5,7 +5,97 @@
 {% endblock title %}
 
 
+
+
 {% block content %}
-    {{ product.name }}
+
+    <style>
+        .container-detail {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .img-detail {
+            width: 80%;
+            height: 30rem;
+        }
+        .box h1 {
+            font-size: 3rem;
+
+        }
+        .div-img-detail {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .img-detail {
+            border: 0.5px solid black;
+            border-radius: 1%;
+        }
+                
+        .modify i {
+            margin-right: 10px;
+        }
+
+        .avaible-sizes {
+            display: flex;
+            flex-direction: row;
+            gap: 3px;
+            margin: 3px 3px;
+        }
+        .size {
+            margin: 3px 3px;
+        }
+        .size p {
+            border: 1px solid black;
+            text-align: center;
+            padding: 3px 3px 3px 3px;
+        }
+        .size p:hover {
+            border: 2px solid black;
+            transition: 0.5s;
+        }
+        .description p {
+            text-align: center;
+        }
+    </style>
+
+    <div class="container-detail">
+        <div class="box">
+            <h1>{{ product.brand }} {{ product.name }}</h1>
+            <p>R$ {{ product.selling_price }}</p>
+            <div class="div-img-detail">
+                <img class="img-detail" src="/media/{{ product.main_photo }}" alt="">
+            </div>
+            {% if product.description %}
+                <div class="description">
+                    <p>{{ product.description }}</p>
+                </div>
+            {% endif %}
+            
+            <div class="avaible-sizes">
+                {% if product.avaible_sizes %}
+                    {% for size in product.avaible_sizes.all %}
+                        <div class="size">
+                            <p>{{ size }}</p>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>   
+            <div class="selling-button">
+                {% include 'components/_btn_buy.html' %}
+            </div>
+        </div>
+    </div>
 {% endblock content %}
 

@@ -1,7 +1,6 @@
 from django.db import models
 from brands.models import Brand
 from categories.models import Category
-from colors.models import Color
 from sizes.models import Size
 
 
@@ -9,7 +8,6 @@ from sizes.models import Size
 class Product(models.Model):
     name = models.CharField(max_length=100)
     is_avaible = models.BooleanField()
-    avaible_colors = models.ManyToManyField(Color, related_name='products')
     avaible_sizes = models.ManyToManyField(Size, related_name='products')
     main_photo = models.ImageField(upload_to='products/')
     selling_price = models.DecimalField(max_digits=20, decimal_places=2)
